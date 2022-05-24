@@ -3,8 +3,8 @@
 
 from os.path import exists
 from prettytable import PrettyTable
-from futoshiki_game import Futoshiki
-from futoshiki_solver import genetic_solver
+from src.game import Futoshiki
+from src.solver import genetic_solver
 
 
 STOPPED = 0
@@ -31,41 +31,40 @@ class FutoshikiCli:
 
     def __init__(self):
         self.state = STOPPED
+        self.file = ''
         self.game = None
-        self.generations = 10000
+        self.generations = 100000
         self.pop_size = 100
         self.elitism = 0.01
         self.crossover = 0.8
-        self.mutate_prob = 0.05
-        self.mutate_rate = 0.05
         self.optim = None
         self.commands = {
             'i': Command(
                 description='Set the path to a game input file (REQUIRED).',
                 action=self.__parse_game),
             'g': Command(
-                description='Set the number of generations to run (a positive integer).',
+                description='Set the number of generations to run.',
                 action=self.__set_generations),
             'p': Command(
-                description='Set the size of solution population (a positive integer).',
+                description='Set the size of the population.',
                 action=self.__set_pop_size),
             'e': Command(
-                description='Set the percentage of elite solutions in the next generation (a fraction from 0 to 1).',
+                description='Set the percentage of elites in the next '
+                            'generation.',
                 action=self.__set_elitism),
             'c': Command(
-                description='Set the percentage of newborns in the next generation (a fraction from 0 to 1).',
+                description='Set the percentage of newborns in the next '
+                            'generation.',
                 action=self.__set_crossover),
-            'mp': Command(
-                description='Set the probability of a solution to be mutated (a fraction from 0 to 1).',
-                action=self.__set_mutate_prob),
-            'mr': Command(
-                description='Set the mutation rate on a single solution (a fraction from 0 to 1).',
-                action=self.__set_mutate_rate),
             'o': Command(
-                description='Set an optimization method (\"Lamark\" or \"Darwin\").',
+                description='Set an optimization method (\"Lamark\", '
+                            '\"Darwin\" or \"None\").',
                 action=self.__set_optim),
             'r': Command(
                 description='Run genetic solution (input required)',
+                action=None),
+            's': Command(
+                description='Show current parameters.',
                 action=None),
             'h': Command(
                 description='Show this help message.',
@@ -74,7 +73,7 @@ class FutoshikiCli:
                 description='Finish the program.',
                 action=None),
         }
-        self.mapper = {
+        self.word2key = {
             'input': 'i',
             'generations': 'g',
             'population': 'p',
@@ -84,10 +83,11 @@ class FutoshikiCli:
             'mutate_rate': 'mr',
             'optimization': 'o',
             'run': 'r',
+            'show': 's',
             'help': 'h',
             'quit': 'q'
         }
-        self.inv_mapper = {self.mapper[k]: k for k in self.mapper.keys()}
+        self.key2word = {self.word2key[k]: k for k in self.word2key.keys()}
 
     def __parse_game(self, input_file):
         if not exists(input_file):
@@ -128,6 +128,10 @@ class FutoshikiCli:
             relations.append(relation_tup)
             offset += 1
         print('Game input file successfully parsed.')
+        split_path = input_file.split('/')
+        if len(split_path) == 1:
+            split_path = input_file.split('\\')
+        self.file = split_path[-1]
         self.game = Futoshiki(mat_size, given_digits, relations)
 
     def __set_generations(self, x):
@@ -170,33 +174,16 @@ class FutoshikiCli:
         except ValueError:
             print('Cross-over should be a float between 0 and 1.')
 
-    def __set_mutate_prob(self, x):
-        try:
-            xf = float(x)
-            if xf < 0 or xf > 1:
-                raise ValueError
-            self.mutate_prob = xf
-            print(f'Mutation probability parameter to {xf}.')
-        except ValueError:
-            print('Mutation probability should be a float between 0 and 1.')
-
-    def __set_mutate_rate(self, x):
-        try:
-            xf = float(x)
-            if xf < 0 or xf > 1:
-                raise ValueError
-            self.mutate_rate = xf
-            print(f'Mutation rate parameter to {xf}.')
-        except ValueError:
-            print('Mutation rate should be a float between 0 and 1.')
-
     def __set_optim(self, x):
         xl = x.lower()
         if xl == 'lamark' or xl == 'darwin':
             self.optim = xl
             print(f'{x} optimization set.')
+        elif xl == 'none':
+            self.optim = None
+            print(f'No optimization selected.')
         else:
-            print('Optimization should be \"Lamark\" or \"Darwin\".')
+            print('Optimization should be \"Lamark\", \"Darwin\" or \"None\".')
 
     def __run(self):
         if self.game:
@@ -206,10 +193,33 @@ class FutoshikiCli:
                                    elitism=self.elitism,
                                    crossover=self.crossover,
                                    optim=self.optim)
-            correctness = self.game.validate(stats.solution)
-            stats.print_stats(correctness, self.game.matrix)
+            print('\nCalculations completed!')
+            stats.correctness = self.game.validate(stats.solution)
+            stats.solution_matrix = self.game.matrix
+            stats.print_stats()
+            answered = False
+            while not answered:
+                print('Would you like to show plot? [y/n]')
+                answer = input('>>> ')
+                if answer.lower() == 'y':
+                    stats.plot()
+                    answered = True
+                elif answer.lower() == 'n':
+                    answered = True
+                else:
+                    print('Invalid input.', end=' ')
+            print()
         else:
             print('Error! Please provide an input file and then try again.')
+
+    def __show_params(self):
+        print(f'Input file:      {self.file}')
+        print(f'Generations:     {self.generations}')
+        print(f'Population size: {self.pop_size}')
+        print(f'Elitism:         {self.elitism}')
+        print(f'Cross-over:      {self.crossover}')
+        print(f'Optimization:    {self.optim}')
+        print()
 
     def __show_help(self):
         table = PrettyTable(['Field', 'Input'])
@@ -221,24 +231,27 @@ class FutoshikiCli:
                 table.add_row(['', ''])
                 table.add_row(['Operator', 'Operation'])
                 table.add_row(['--------', '---------'])
-            table.add_row([f'{k}, {self.inv_mapper[k]}', self.commands[k].description])
+            table.add_row([f'{k}, {self.key2word[k]}', self.commands[k].description])
         print(HELP, end='\n\n')
         print(table, end='\n\n')
 
     def __quit(self):
         self.state = STOPPED
-        print('Good Bye! ☻')
+        print('\nGood Bye! ☻')
 
     def mainloop(self):
-        print('\u001b[1mFutoshiki Solver CLI App\u001b[0m')
-        print('Solves Futoshiki games using a genetic algorithm')
+        print('\nFUTOSHIKI SOLVER CLI APP')
+        print('Solve Futoshiki games using a genetic algorithm')
         print()
         self.state = RUNNING
         self.__show_help()
         while self.state == RUNNING:
-            args = input('\u001b[32;1m>>> \u001b[0m')
+            args = input('>>> ')
             if args == 'r' or args == 'run':
                 self.__run()
+                continue
+            if args == 's' or args == 'show':
+                self.__show_params()
                 continue
             if args == 'h' or args == 'help' or args == '?':
                 self.__show_help()
@@ -253,9 +266,9 @@ class FutoshikiCli:
                     print('Invalid input. Use key=value pairs or and operator.')
                     break
                 k, v = kv
-                if k not in self.commands.keys() and k not in self.mapper.keys():
+                if k not in self.commands.keys() and k not in self.word2key.keys():
                     print('Invalid input. Type help for help message.')
                     break
-                if k in self.mapper.keys():
-                    k = self.mapper[k]
+                if k in self.word2key.keys():
+                    k = self.word2key[k]
                 self.commands[k].action(v)

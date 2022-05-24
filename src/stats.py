@@ -8,7 +8,9 @@ from matplotlib import pyplot as plt
 class Statistics:
 
     def __init__(self):
-        self.solution = None
+        self.solution_array = None
+        self.solution_matrix = None
+        self.correctness = False
         self.fitness = 0
         self.runtime = 0
         self.max_fitness = []
@@ -19,38 +21,35 @@ class Statistics:
         self.cross_over_calls = 0
         self.restarts = 0
         self.generations = 0
-        self.params = {}
 
-    def print_stats(self, correctness, solution):
-        print()
-        stats = PrettyTable(['Item', 'Value(s)'])
-        stats.align = 'l'
-        solution_str = ''
-        for row in solution:
-            solution_str += f'{row}\n'
-        stats.add_row(['Solution:', solution_str[:-1]])
-        stats.add_row(['Correctness:', correctness])
-        stats.add_row(['Sol. Fitness:', self.fitness])
-        stats.add_row(['Avg. Fitness:', self.avg_fitness[-1]])
-        stats.add_row(['Runtime:', self.runtime])
-        stats.add_row(['Generations:', self.generations])
-        stats.add_row(['Fitness Calls:', self.fitness_calls])
-        stats.add_row(['Mutate Calls:', self.mutate_calls])
-        stats.add_row(['X-Over Calls:', self.cross_over_calls])
-        stats.add_row(['Restarts:', self.restarts])
-        print(stats, end='\n\n')
-        params = PrettyTable(['Parameter', 'Value'])
-        params.align = 'l'
-        for k in self.params.keys():
-            params.add_row([f'{k}:', self.params[k]])
-        print(params, end='\n\n')
+    def print_stats(self):
+        if self.solution_matrix:
+            print()
+            stats = PrettyTable(['Item', 'Value(s)'])
+            stats.align = 'l'
+            board = ''
+            for row in self.solution_matrix:
+                board += f'{row}\n'
+            board = board.replace(',', '').replace('[', '').replace(']', '')
+            stats.add_row(['Solution:', board[:-1]])
+            stats.add_row(['Correctness:', self.correctness])
+            stats.add_row(['Fitness:', self.fitness])
+            stats.add_row(['Runtime:', self.runtime])
+            stats.add_row(['Generations:', self.generations])
+            stats.add_row(['Fitness Calls:', self.fitness_calls])
+            stats.add_row(['Mutate Calls:', self.mutate_calls])
+            stats.add_row(['X-Over Calls:', self.cross_over_calls])
+            stats.add_row(['Restarts:', self.restarts])
+            print(stats, end='\n\n')
+        else:
+            print('Error: Could not print statistics.')
 
     def plot(self):
         plt.figure()
         title = 'Fitness per generation\n'
         title += f'Attempt: {self.restarts + 1} | '
         title += f'Fitness calls: {self.fitness_calls} | '
-        title += f'Runtime: {str(self.runtime).split(".")[0]}'
+        title += f'Runtime: {self.runtime}'
         plt.title(title)
         plt.xlabel('Generation')
         plt.ylabel('Fitness')
@@ -62,7 +61,9 @@ class Statistics:
         plt.show()
 
     def reset(self):
-        self.solution = None
+        self.solution_array = None
+        self.solution_matrix = None
+        self.correctness = False
         self.fitness = 0
         self.runtime = 0
         self.max_fitness.clear()
@@ -73,5 +74,3 @@ class Statistics:
         self.cross_over_calls = 0
         self.restarts = 0
         self.generations = 0
-        self.params.clear()
-

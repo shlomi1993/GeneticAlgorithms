@@ -1,7 +1,7 @@
 # Shlomi Ben-Shushan 311408264
 
 
-from futoshiki_cli import FutoshikiCli
+from src.cli import FutoshikiCli
 
 
 if __name__ == '__main__':
