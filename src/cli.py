@@ -99,40 +99,41 @@ class FutoshikiCli:
         except OSError:
             print('Could not read file.  Please provide a valid input file.')
             return
-        offset = 0
-        mat_size = int(lines[offset])
-        offset += 1
-        n_given = int(lines[offset])
-        offset += 1
-        given_digits = []
-        for i in range(n_given):
-            given_row = lines[offset].split(' ')
-            given_tup = int(given_row[0]), int(given_row[1]), int(given_row[2])
-            for x in given_tup:
-                if x < 1 or x > mat_size:
-                    print('Invalid input. Please provide a valid input file.')
-                    return
-            given_digits.append(given_tup)
+        try:
+            offset = 0
+            mat_size = int(lines[offset])
             offset += 1
-        n_relations = int(lines[offset])
-        offset += 1
-        relations = []
-        for i in range(n_relations):
-            relation_row = lines[offset].split(' ')
-            relation_tup = (int(relation_row[0]), int(relation_row[1]),
-                            int(relation_row[2]), int(relation_row[3]))
-            for x in relation_tup:
-                if x < 1 or x > mat_size:
-                    print('Invalid input. Please provide a valid input file.')
-                    return
-            relations.append(relation_tup)
+            n_given = int(lines[offset])
             offset += 1
-        print('Game input file successfully parsed.')
-        split_path = input_file.split('/')
-        if len(split_path) == 1:
-            split_path = input_file.split('\\')
-        self.file = split_path[-1]
-        self.game = Futoshiki(mat_size, given_digits, relations)
+            given_digits = []
+            for i in range(n_given):
+                given_row = lines[offset].split(' ')
+                given_tup = int(given_row[0]), int(given_row[1]), int(given_row[2])
+                for x in given_tup:
+                    if x < 1 or x > mat_size:
+                        raise ValueError
+                given_digits.append(given_tup)
+                offset += 1
+            n_relations = int(lines[offset])
+            offset += 1
+            relations = []
+            for i in range(n_relations):
+                relation_row = lines[offset].split(' ')
+                relation_tup = (int(relation_row[0]), int(relation_row[1]),
+                                int(relation_row[2]), int(relation_row[3]))
+                for x in relation_tup:
+                    if x < 1 or x > mat_size:
+                        raise ValueError
+                relations.append(relation_tup)
+                offset += 1
+            print('Game input file successfully parsed.')
+            split_path = input_file.split('/')
+            if len(split_path) == 1:
+                split_path = input_file.split('\\')
+            self.file = split_path[-1]
+            self.game = Futoshiki(mat_size, given_digits, relations)
+        except IndexError or ValueError:
+            print('Invalid input. Please provide a valid input file.')
 
     def __set_generations(self, x):
         try:
