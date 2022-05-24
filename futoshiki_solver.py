@@ -1,7 +1,8 @@
 # Shlomi Ben-Shushan 311408264
 
 
-from random import random, randint, shuffle, sample, choice
+from random import randint, shuffle, sample, choice
+from datetime import datetime
 from futoshiki_stats import Statistics
 
 
@@ -13,7 +14,7 @@ class Solution:
         if array:
             self.array = array
         else:
-            self.array = [randint(1, game.dim) for j in range(game.sol_size)]
+            self.array = [randint(1, game.dim) for _ in range(game.sol_size)]
         self.fitness = fitness(game, self.array)
 
 
@@ -30,14 +31,41 @@ def gather_info(population):
     return maximum, minimum, round(total / len(population), 2)
 
 
-def mutate(game, solution, rate):
+def make_bias_array(population):
+    bias_array = []
+    for i, s in zip(range(len(population)), population):
+        for j in range(s.fitness):
+            bias_array.append(i)
+    shuffle(bias_array)
+    return bias_array
+
+
+def mutate(game, solution):
     global stats
     stats.mutate_calls += 1
-    indexes = [i for i in range(len(solution))]
-    chosen_indexes = sample(indexes, int(rate * len(solution)))
-    array = solution.copy()
-    for i in chosen_indexes:
-        array[i] = randint(1, game.dim)
+
+    coin = randint(1, 3)
+
+    if coin == 1:
+        indexes = [i for i in range(len(solution))]
+        i, j = sample(indexes, 2)
+        array = solution.copy()
+        temp = array[i]
+        array[i] = array[j]
+        array[j] = temp
+
+    elif coin == 2:
+        i = randint(1, len(solution) - 1)
+        j = i - 1
+        array = solution.copy()
+        temp = array[i]
+        array[i] = array[j]
+        array[j] = temp
+
+    else:
+        array = solution.copy()
+        array[randint(0, len(solution) - 1)] = randint(1, game.dim)
+
     return Solution(game, array)
 
 
@@ -72,43 +100,103 @@ def fitness(game, solution):
 
 
 def optimize(game, solution):
-    start_fitness = solution.fitness
+
+    game.set(solution.array)
+    truth_matrix = []
+    for x in range(game.dim):
+        row = []
+        for y in range(game.dim):
+            v = game.matrix[x][y]
+            not_satisfied = 0
+            for i in range(game.dim):
+                if i != x and game.matrix[i][y] == v:
+                    not_satisfied += 1
+                    break
+            for j in range(game.dim):
+                if j != y and game.matrix[x][j] == v:
+                    not_satisfied += 1
+                    break
+            for a, b, c, d in game.relations:
+                if (x, y) == (a, b) and game.matrix[x][y] <= game.matrix[c][d]:
+                    not_satisfied += 1
+                    break
+            row.append(not_satisfied)
+        truth_matrix.append(row)
+
+    not_satisfied_val = 0
+    not_satisfied_cells = []
+    for x in range(game.dim):
+        for y in range(game.dim):
+            if truth_matrix[x][y] == not_satisfied_val:
+                not_satisfied_cells.append((x, y, truth_matrix[x][y]))
+            if truth_matrix[x][y] > not_satisfied_val:
+                not_satisfied_val = truth_matrix[x][y]
+                not_satisfied_cells.clear()
+                not_satisfied_cells.append((x, y, truth_matrix[x][y]))
+
+    for i, j, v in not_satisfied_cells:
+        if (i, j) in game.given_digits.keys():
+            not_satisfied_cells.remove((i, j, v))
+
+    if len(not_satisfied_cells) == 0:
+        return solution
+
+    x, y, v = choice(not_satisfied_cells)
+
+    allowed_values = [i for i in range(game.dim)]
+    for i in range(game.dim):
+        if i != x and game.matrix[i][y] in allowed_values:
+            allowed_values.remove(game.matrix[i][y])
+    for j in range(game.dim):
+        if j != y and game.matrix[x][j] in allowed_values:
+            allowed_values.remove(game.matrix[x][j])
+    for a, b, c, d in game.relations:
+        u = game.matrix[c][d]
+        if (x, y) == (a, b) and v <= u:
+            for allowed in allowed_values:
+                if allowed <= u:
+                    allowed_values.remove(allowed)
+
+    if len(allowed_values) == 0:
+        return Solution(game)
+
+    allowed = choice(allowed_values)
+
     array = solution.array.copy()
-    i = randint(0, len(array) - 1)
-    j = randint(1, game.dim)
-    while array[i] == j:
-        j = randint(1, game.dim)
-    array[i] = j
-    ns = Solution(game, array)
-    if ns.fitness > start_fitness:
-        return ns
-    return solution
+    k = 0
+    for i in range(game.dim):
+        for j in range(game.dim):
+            if (i, j) not in game.given_digits.keys():
+                if (x, y) == (i, j):
+                    array[k] = allowed
+                k += 1
+
+    return Solution(game, array)
 
 
-def genetic_solver(game, generations, pop_size, elitism, crossover, mutation,
-                   optim=None):
+def genetic_solver(game, generations, pop_size, elitism, crossover, optim=None):
+
+    # Timer
+    start = datetime.now()
 
     # Composition of the new population
     n_elite = int(elitism * pop_size)
     n_newborns = int(crossover * pop_size)
     n_survivors = pop_size - n_elite - n_newborns
 
-    # Population
-    population = [Solution(game) for i in range(pop_size)]
-
     # Statistics
     global stats
-    stats = Statistics()
+    stats.reset()
     stats.params = {
         'generations': generations,
         'population': pop_size,
         'elitism': elitism,
         'crossover': crossover,
-        'mutation_prob': mutation[1],
-        'mutation_rate': mutation[0],
         'optimization': optim
     }
-    min_since_converged = []
+
+    # Population
+    population = [Solution(game) for i in range(pop_size)]
 
     # Evolution
     best_solution = ''
@@ -121,63 +209,61 @@ def genetic_solver(game, generations, pop_size, elitism, crossover, mutation,
         stats.min_fitness.append(minimum)
         stats.max_fitness.append(maximum)
         stats.avg_fitness.append(average)
-        min_since_converged.append(minimum)
+
+        # Show information
+        if g % 10 == 0:
+            average_str = str(average)
+            if len(average_str.split('.')[1]) == 1:
+                average_str += '0'
+            print(f'Generation {g}:  \t'
+                  f'Worst fitness: {minimum}  |  '
+                  f'Average fitness: {average_str}  |  '
+                  f'Best fitness: {maximum}  |  '
+                  f'Chosen fitness: {best_fitness}  |  '
+                  f'Fitness calls: {stats.fitness_calls}')
 
         # Optimization
-        # if optim == 'lamark':
-        #     tuples = [optimize(game, s) for s in population]
-        # elif optim == 'darwin':
-        #     darwin_tuples = [optimize(game, s) for s in population]
-        #     darwin_chosen = max(darwin_tuples, key=lambda tup: tup[1])
-        #     if chosen[1] < darwin_chosen[1]:
-        #         chosen = deepcopy(darwin_chosen)
+        if optim == 'lamark':
+            population = [optimize(game, s) for s in population]
+        elif optim == 'darwin':
+            darwin_population = [optimize(game, s) for s in population]
+            darwin = max(darwin_population, key=lambda s: s.fitness)
+            if best_fitness < darwin.fitness:
+                best_solution = darwin.array.copy()
+                best_fitness = darwin.fitness
 
-        # Sort solutions according to fitness and mark chosen one.
-        population.sort(key=lambda _s: _s.fitness, reverse=True)
+        # Sort solutions and mark the best one.
+        population.sort(key=lambda s: s.fitness, reverse=True)
         if best_fitness < population[0].fitness:
             best_solution = population[0].array.copy()
             best_fitness = population[0].fitness
 
-        # Show information
-        if g % 10 == 0:
-            print(f'Generation {g}: '
-                  f'Worst fitness: {minimum} | '
-                  f'Average fitness: {average} | '
-                  f'Best fitness: {maximum} | '
-                  f'Chosen fitness: {best_fitness} | '
-                  f'Fitness calls: {stats.fitness_calls}')
-
-        # Convergence test and handling
+        # Convergence handling
         if best_fitness == game.n_constraints:
-            print(f'Generation {g}: A legal solution has been found!')
+            print(f'Generation {g}:  \tA legal solution has been found!')
             break
         if maximum == minimum:
-            print(f'Generation {g}: CONVERGED! Restart calculations...')
+            print(f'Generation {g}:  \tCONVERGED! Restart calculations...')
             stats.restarts += 1
-            min_since_converged.clear()
-            population = [Solution(game) for i in range(pop_size)]
+            stats.min_fitness.clear()
+            stats.max_fitness.clear()
+            stats.avg_fitness.clear()
+            for i in range(pop_size):
+                population[i] = Solution(game)
             continue
 
-        # Make bias array
-        bias_array = []
-        for i, sol in zip(range(len(population)), population):
-            for j in range(sol.fitness):
-                bias_array.append(i)
-        shuffle(bias_array)
+        # Bias Selection
+        bias_array = make_bias_array(population)
 
         # Elitism
         elites = [sol for sol in population[:n_elite]]
 
         # Cross-over
         newborns = []
-        trials = 0
         while len(newborns) < n_newborns:
             i, j = sample(bias_array, 2)
             s = cross_over(game, population[i].array, population[j].array)
-            trials += 1
-            if s.fitness > max(min_since_converged) or trials == 100:
-                trials = 0
-                newborns.append(s)
+            newborns.append(s)
 
         # Replication
         survivors = []
@@ -190,60 +276,70 @@ def genetic_solver(game, generations, pop_size, elitism, crossover, mutation,
         non_elites = survivors + newborns
         mutated = []
         for s in non_elites:
-            m = mutate(game, s.array, 0.05)
-            # if m.fitness > s.fitness:
-            mutated.append(m)
-            # else:
-            #     mutated.append(s)
+            m = mutate(game, s.array)
+            mutated.append(m if m.fitness > s.fitness else s)
 
         # Create next generation
         population = elites + mutated
 
     stats.solution = best_solution
     stats.fitness = best_fitness
+    stats.runtime = datetime.now() - start
+    stats.plot()
     return stats
 
 
-def calibrate(game):
-    elitism = [0.0, 0.01, 0.03, 0.05]
-    crossover = [i * 0.1 for i in range(1, 10)]
-    mutation = [(r, p * 0.01) for r in [0.05, 0.10] for p in range(1, 20, 2)]
-    optim = [None, 'lamark', 'darwin']
-    params = []
-    for a in elitism:
-        for b in crossover:
-            for c in mutation:
-                for d in optim:
-                    st = genetic_solver(game, 3000, 100, a, b, c, d)
-                    params.append(st)
-
-    best = max(params, key=lambda s: s.fitness)
-    corr = True if best.fitness == 58 else False
-    best.print_stats(corr, game.matrix)
-    return best
-
-
-def debug():
-    from futoshiki_game import Futoshiki
-    game = Futoshiki(mat_size=5,
-                     given_digits=[(1, 2, 4), (3, 3, 2)],
-                     relations=[(1, 1, 1, 2), (1, 4, 2, 4), (2, 2, 2, 3),
-                                (3, 4, 4, 4), (4, 5, 3, 5), (4, 4, 5, 4),
-                                (5, 5, 4, 5), (5, 2, 5, 1)])
-
-    st = genetic_solver(game=game,
-                        generations=10000,
-                        pop_size=100,
-                        elitism=0.01,
-                        crossover=1.0,
-                        mutation=('err', 0.05),  # tuple of (rate, prob)
-                        optim='')
-
-    print(st.solution)
-    print(f'Validation: {game.validate(st.solution)}, fitness: {st.fitness}')
-
-    true_solution = [5, 1, 2, 3, 2, 5, 3, 1, 4, 4, 3, 5, 1, 3, 1, 5, 4, 2, 1, 2, 4, 3, 5]
-    print(f'Validation: {game.validate(true_solution)}, fitness: {fitness(game, true_solution)}')
+# def calibrate(game):
+#     elitism = [0.0, 0.01, 0.03, 0.05]
+#     crossover = [i * 0.1 for i in range(1, 10)]
+#     # optim = [None, 'lamark', 'darwin']
+#     params = []
+#     for a in elitism:
+#         for b in crossover:
+#             try:
+#                 st = genetic_solver(game, 100000, 100, a, b)
+#                 params.append(st)
+#             except Exception:
+#                 pass
+#     best1 = min(params, key=lambda s: s.fitness)
+#     best2 = min(params, key=lambda s: s.generations)
+#     corr1 = True if best1.fitness == 58 else False
+#     corr2 = True if best2.fitness == 58 else False
+#     best1.print_stats(corr1, game.matrix)
+#     best2.print_stats(corr2, game.matrix)
+#     return best1
 
 
-debug()
+# def parallel_search(game, generations, pop_size, elitism, crossover, optim=None):
+#     pros = []
+#     for i in range(5):
+#         print('Thread Started')
+#         p = Process(target=genetic_solver, args=(game, generations, pop_size,
+#                                                  elitism, crossover))
+#         pros.append(p)
+#         p.start()
+#
+#     for t in pros:
+#         t.join()
+
+
+# def debug():
+#     from futoshiki_game import Futoshiki
+#     game = Futoshiki(mat_size=5,
+#                      given_digits=[(1, 2, 4), (3, 3, 2)],
+#                      relations=[(1, 1, 1, 2), (1, 4, 2, 4), (2, 2, 2, 3),
+#                                 (3, 4, 4, 4), (4, 5, 3, 5), (4, 4, 5, 4),
+#                                 (5, 5, 4, 5), (5, 2, 5, 1)])
+#
+#     st = genetic_solver(game=game, generations=100000, pop_size=100,
+#                         elitism=0.01, crossover=0.8, optim='Lamark')
+#
+#     print(st.solution)
+#     print(f'Validation: {game.validate(st.solution)}, fitness: {st.fitness}')
+#
+#     true_solution = [5, 1, 2, 3, 2, 5, 3, 1, 4, 4, 3, 5, 1, 3, 1, 5, 4, 2, 1, 2, 4, 3, 5]
+#     print(f'Validation: {game.validate(true_solution)}, fitness: {fitness(game, true_solution)}')
+#     # calibrate(game)
+#
+#
+# debug()

@@ -5,7 +5,7 @@ class Futoshiki:
 
     def __init__(self, mat_size, given_digits, relations):
         self.dim = mat_size
-        self.matrix = [[0 for j in range(mat_size)] for i in range(mat_size)]
+        self.matrix = [[0 for _ in range(mat_size)] for _ in range(mat_size)]
         self.given_digits = {(i - 1, j - 1): v for i, j, v in given_digits}
         for i, j in self.given_digits.keys():
             self.matrix[i][j] = self.given_digits[(i, j)]

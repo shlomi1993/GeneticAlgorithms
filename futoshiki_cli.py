@@ -205,7 +205,6 @@ class FutoshikiCli:
                                    pop_size=self.pop_size,
                                    elitism=self.elitism,
                                    crossover=self.crossover,
-                                   mutation=(self.mutate_rate, self.mutate_prob),
                                    optim=self.optim)
             correctness = self.game.validate(stats.solution)
             stats.print_stats(correctness, self.game.matrix)

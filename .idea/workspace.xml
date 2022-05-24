@@ -2,18 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d5558e04-ddc2-4c88-b613-3e58d04aba73" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/futoshiki_cli.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/futoshiki_stats.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/input_template.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backup_1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backup_9.5_1316.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/fitness_208_15.5_1221.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backups/backup_1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backups/backup_9.5_1316.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backups/fitness_208_15.5_1221.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backups/futoshiki_solver_14.5_1833.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backups/futoshiki_solver_14.5_1837.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backups/futoshiki_solver_14.5_1946.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backups/futoshiki_solver_23.5_1029.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backups/futoshiki_solver_8.5_2040.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backups/futoshiki_solver_8.5_2138.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backups/good_option.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backups/option1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/futoshiki_cli.py" beforeDir="false" afterPath="$PROJECT_DIR$/futoshiki_cli.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/futoshiki_game.py" beforeDir="false" afterPath="$PROJECT_DIR$/futoshiki_game.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/futoshiki_solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/futoshiki_solver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/good_option.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/option1.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/futoshiki_stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/futoshiki_stats.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,14 +153,38 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="futoshiki_solver_v2.0" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="GeneticAlgorithms" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/futoshiki_solver_v2.0.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Python.futoshiki_solver" />
       <item itemvalue="Python.futoshiki_cli" />
       <item itemvalue="Python.futoshiki_game" />
       <item itemvalue="Python.app" />
+      <item itemvalue="Python.futoshiki_solver_v2.0" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.futoshiki_solver_v2.0" />
         <item itemvalue="Python.app" />
         <item itemvalue="Python.futoshiki_cli" />
         <item itemvalue="Python.futoshiki_game" />
@@ -182,7 +211,7 @@
       <workItem from="1652535499697" duration="26005000" />
       <workItem from="1652605465898" duration="37248000" />
       <workItem from="1653193807366" duration="3613000" />
-      <workItem from="1653212457758" duration="56413000" />
+      <workItem from="1653212457758" duration="91812000" />
     </task>
     <servers />
   </component>
@@ -203,7 +232,8 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/GeneticAlgorithms$futoshiki_cli.coverage" NAME="futoshiki_cli Coverage Results" MODIFIED="1653252330033" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/GeneticAlgorithms$app.coverage" NAME="app Coverage Results" MODIFIED="1653285715846" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/GeneticAlgorithms$futoshiki_solver.coverage" NAME="futoshiki_solver Coverage Results" MODIFIED="1653298589746" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GeneticAlgorithms$futoshiki_solver_v2_0.coverage" NAME="futoshiki_solver_v2.0 Coverage Results" MODIFIED="1653317899340" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/GeneticAlgorithms$futoshiki_solver.coverage" NAME="futoshiki_solver Coverage Results" MODIFIED="1653374539753" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/GeneticAlgorithms$futoshiki_game.coverage" NAME="futoshiki_game Coverage Results" MODIFIED="1652614847116" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
