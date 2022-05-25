@@ -2,58 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d5558e04-ddc2-4c88-b613-3e58d04aba73" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/GeneticFutoshikiSolver.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backups/drafts/results/5x5/darwin/5_easy_darwin/5_easy.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backups/drafts/results/5x5/darwin/5_easy_darwin/5_easy.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backups/drafts/results/5x5/darwin/5_tricky_darwin/5_tricky.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backups/drafts/results/5x5/darwin/5_tricky_darwin/5_tricky.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backups/drafts/results/5x5/lamark/5_easy_lamark/5_easy.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backups/drafts/results/5x5/lamark/5_easy_lamark/5_easy.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backups/drafts/results/5x5/lamark/5_tricky_lamark/5_tricky.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backups/drafts/results/5x5/lamark/5_tricky_lamark/5_tricky.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backups/drafts/results/5x5/no-optim/5_easy/5_easy.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backups/drafts/results/5x5/no-optim/5_easy/5_easy.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backups/drafts/results/5x5/no-optim/5_tricky/5_tricky.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backups/drafts/results/5x5/no-optim/5_tricky/5_tricky.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gene.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inputs/5_easy_b.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/inputs/example.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/report/experiments/exp1.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/report/experiments/exp2.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/report/experiments/exp3.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/report/experiments/exp4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/report/experiments/exp5.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/report/experiments/exp6.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/submit/311408264.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arg1.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/arg2.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/arg3.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/arg4.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/arg5.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/report.docx" beforeDir="false" afterPath="$PROJECT_DIR$/report/report.docx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/results/5x5/darwin/5_easy_darwin/5_easy.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/results/5x5/darwin/5_easy_darwin/5_easy.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/results/5x5/darwin/5_tricky_darwin/5_tricky.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/results/5x5/darwin/5_tricky_darwin/5_tricky.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/results/5x5/lamark/5_easy_lamark/5_easy.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/results/5x5/lamark/5_easy_lamark/5_easy.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/results/5x5/lamark/5_tricky_lamark/5_tricky.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/results/5x5/lamark/5_tricky_lamark/5_tricky.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/results/5x5/no-optim/5_easy/5_easy.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/results/5x5/no-optim/5_easy/5_easy.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/results/5x5/no-optim/5_tricky/5_tricky.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/results/5x5/no-optim/5_tricky/5_tricky.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/~$report.docx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/report/~WRL3543.tmp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cli.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cli.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/game.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/game.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/optim.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/optim.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/solver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/stats.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -275,7 +224,7 @@
       <workItem from="1652605465898" duration="37248000" />
       <workItem from="1653193807366" duration="3613000" />
       <workItem from="1653212457758" duration="114405000" />
-      <workItem from="1653417143181" duration="32271000" />
+      <workItem from="1653417143181" duration="33467000" />
     </task>
     <servers />
   </component>
