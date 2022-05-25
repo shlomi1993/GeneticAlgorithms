@@ -1,0 +1,30 @@
+Calculations completed!
+
++----------------+-----------+
+| Item           | Value(s)  |
++----------------+-----------+
+| Solution:      | 5 2 3 1 4 |
+|                | 2 1 4 3 5 |
+|                | 1 4 5 2 3 |
+|                | 3 5 2 4 1 |
+|                | 4 3 1 5 2 |
+| Correctness:   | False     |
+| Fitness:       | 55        |
+| Runtime:       | 0:34:22   |
+| Generations:   | 100000    |
+| Fitness Calls: | 17852937  |
+| Mutate Calls:  | 9840897   |
+| X-Over Calls:  | 7952240   |
+| Restarts:      | 597       |
++----------------+-----------+
+
+Would you like to show plot? [y/n]
+>>> y
+
+>>> s
+Input file:      5_easy.txt
+Generations:     100000
+Population size: 100
+Elitism:         0.01
+Cross-over:      0.8
+Optimization:    None

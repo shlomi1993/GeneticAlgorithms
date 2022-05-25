@@ -1,13 +1,23 @@
 # Shlomi Ben-Shushan 311408264
 
+# File: stats.py
+# Content: a class of statistics and info about the algorithm and the solutions.
+
 
 from prettytable import PrettyTable
 from matplotlib import pyplot as plt
 
 
 class Statistics:
+    """
+    An object from this class collects information about the experiment and
+    allows to print it to a table or plot it to a graph.
+    """
 
     def __init__(self):
+        """
+        Constructor. Initializes the object's knowledge-base.
+        """
         self.solution_array = None
         self.solution_matrix = None
         self.correctness = False
@@ -21,8 +31,13 @@ class Statistics:
         self.cross_over_calls = 0
         self.restarts = 0
         self.generations = 0
+        self.figure = None
 
     def print_stats(self):
+        """
+        Print information and statistic using PrettyTable.
+        :return: None.
+        """
         if self.solution_matrix:
             print()
             stats = PrettyTable(['Item', 'Value(s)'])
@@ -33,8 +48,7 @@ class Statistics:
             board = board.replace(',', '').replace('[', '').replace(']', '')
             stats.add_row(['Solution:', board[:-1]])
             stats.add_row(['Correctness:', self.correctness])
-            stats.add_row(['Sol. Fitness:', self.fitness])
-            stats.add_row(['Avg. Fitness:', self.avg_fitness[-1]])
+            stats.add_row(['Fitness:', self.fitness])
             stats.add_row(['Runtime:', self.runtime])
             stats.add_row(['Generations:', self.generations])
             stats.add_row(['Fitness Calls:', self.fitness_calls])
@@ -45,8 +59,13 @@ class Statistics:
         else:
             print('Error: Could not print statistics.')
 
-    def plot(self):
-        plt.figure()
+    def save_plot(self):
+        """
+        This method allows saving a plot of current situation to a variable
+        attribute for later show.
+        :return: None. But it creates plot figure.
+        """
+        self.figure = plt.figure()
         title = 'Fitness per generation\n'
         title += f'Attempt: {self.restarts + 1} | '
         title += f'Fitness calls: {self.fitness_calls} | '
@@ -59,9 +78,22 @@ class Statistics:
         plt.plot(x, self.max_fitness, label='Maximal fitness')
         plt.plot(x, self.avg_fitness, label='Average fitness')
         plt.legend()
-        plt.show()
+
+    def show_plot(self):
+        """
+        This method allows to show the saved plot if exists or to create a new
+        one and show it instantly.
+        :return: None.
+        """
+        if not self.figure:
+            self.save_plot()
+        self.figure.show()
 
     def reset(self):
+        """
+        This method re-initializes all object's attributes.
+        :return: None.
+        """
         self.solution_array = None
         self.solution_matrix = None
         self.correctness = False

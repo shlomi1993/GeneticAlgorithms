@@ -1,0 +1,30 @@
+Calculations completed!
+
++----------------+-----------+
+| Item           | Value(s)  |
++----------------+-----------+
+| Solution:      | 3 1 5 4 2 |
+|                | 1 5 2 3 4 |
+|                | 5 4 1 2 3 |
+|                | 4 2 3 1 5 |
+|                | 2 3 4 5 1 |
+| Correctness:   | False     |
+| Fitness:       | 60        |
+| Runtime:       | 0:35:28   |
+| Generations:   | 100000    |
+| Fitness Calls: | 17856887  |
+| Mutate Calls:  | 9845847   |
+| X-Over Calls:  | 7956240   |
+| Restarts:      | 547       |
++----------------+-----------+
+
+Would you like to show plot? [y/n]
+>>> y
+
+>>> s
+Input file:      5_tricky.txt
+Generations:     100000
+Population size: 100
+Elitism:         0.01
+Cross-over:      0.8
+Optimization:    None
