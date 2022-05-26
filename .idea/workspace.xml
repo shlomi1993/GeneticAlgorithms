@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d5558e04-ddc2-4c88-b613-3e58d04aba73" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/cli.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/cli.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/solver.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/solver.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/stats.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/stats.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/submit/GA.exe" beforeDir="false" afterPath="$PROJECT_DIR$/submit/GA.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/submit/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/submit/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/submit/src.zip" beforeDir="false" afterPath="$PROJECT_DIR$/submit/src.zip" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -229,7 +228,7 @@
       <workItem from="1653212457758" duration="114405000" />
       <workItem from="1653417143181" duration="33467000" />
       <workItem from="1653544978981" duration="3085000" />
-      <workItem from="1653557078481" duration="3278000" />
+      <workItem from="1653557078481" duration="4028000" />
     </task>
     <servers />
   </component>
