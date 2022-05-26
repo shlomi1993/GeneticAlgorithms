@@ -52,7 +52,7 @@ class FutoshikiCli:
         # System variables.
         self.state = STOPPED
         self.file = ''
-        self.plot = False
+        self.to_plot = False
         self.game = None
 
         # Experiment parameters.
@@ -290,12 +290,12 @@ class FutoshikiCli:
         """
         xl = x.lower()
         if xl == 'true' or xl == 't':
-            self.plot = True
-            print(f'Plot set to {self.plot}')
+            self.to_plot = True
+            print(f'Plot set to {self.to_plot}')
             return True
         elif xl == 'false' or xl == 'f':
-            self.plot = False
-            print(f'Plot set to {self.plot}')
+            self.to_plot = False
+            print(f'Plot set to {self.to_plot}')
             return True
         else:
             print('Plot assignment should be \"true\" or \"false\".')
@@ -314,7 +314,8 @@ class FutoshikiCli:
                                    pop_size=self.pop_size,
                                    elitism=self.elitism,
                                    crossover=self.crossover,
-                                   optim=self.optim)
+                                   optim=self.optim,
+                                   to_plot=self.to_plot)
 
             # If not stopped by the user, print info and maybe show plot.
             if stats:
@@ -322,7 +323,7 @@ class FutoshikiCli:
                 stats.correctness = self.game.validate(stats.solution)
                 stats.solution_matrix = self.game.matrix
                 stats.print_stats()
-                if self.plot:
+                if self.to_plot:
                     stats.show_plot()
                 return True
             print('\nStopped.')
@@ -342,7 +343,7 @@ class FutoshikiCli:
         print(f'Elitism:         {self.elitism}')
         print(f'Cross-over:      {self.crossover}')
         print(f'Optimization:    {self.optim}')
-        print(f'Plot:            {self.plot}')
+        print(f'Plot:            {self.to_plot}')
         print()
         return True
 

@@ -12,7 +12,8 @@ from src.optim import optimize
 from src.stats import Statistics
 
 
-def genetic_solver(game, generations, pop_size, elitism, crossover, optim=None):
+def genetic_solver(game, generations, pop_size, elitism, crossover, optim=None,
+                   to_plot=False):
     """
     This function is the Genetic Algorithm implementation.
     :param game: a Futoshiki game object.
@@ -21,6 +22,7 @@ def genetic_solver(game, generations, pop_size, elitism, crossover, optim=None):
     :param elitism: elitism parameter.
     :param crossover: cross-over parameter (defines also the replication rate).
     :param optim: a string that tells what optimization to use.
+    :param to_plot: a boolean that tells if to create a plot or not.
     :return: a Statistics object that contains the solution.
     """
 
@@ -40,7 +42,6 @@ def genetic_solver(game, generations, pop_size, elitism, crossover, optim=None):
     # Evolution.
     best_solution = ''
     best_fitness = 0
-    best_plot = None
     for g in range(1, generations + 1):
 
         # Allow the user to stop the calculations.
@@ -80,14 +81,16 @@ def genetic_solver(game, generations, pop_size, elitism, crossover, optim=None):
             if best_fitness < darwin.fitness:
                 best_solution = darwin.vector.copy()
                 best_fitness = darwin.fitness
-                best_plot = game.stats.save_plot()
+                if to_plot:
+                    game.stats.save_plot()
 
         # Sort solutions and mark the best one.
         population.sort(key=lambda s: s.fitness, reverse=True)
         if best_fitness < population[0].fitness:
             best_solution = population[0].vector.copy()
             best_fitness = population[0].fitness
-            best_plot = game.stats.save_plot()
+            if to_plot:
+                game.stats.save_plot()
 
         # Stopping condition.
         if best_fitness == game.n_constraints:
@@ -138,6 +141,5 @@ def genetic_solver(game, generations, pop_size, elitism, crossover, optim=None):
     # Update and return statistics (that contains the solution).
     game.stats.solution = best_solution
     game.stats.fitness = best_fitness
-    game.stats.figure = best_plot
     game.stats.runtime = str(datetime.now() - start).split(".")[0]
     return game.stats

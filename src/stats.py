@@ -31,7 +31,7 @@ class Statistics:
         self.cross_over_calls = 0
         self.restarts = 0
         self.generations = 0
-        self.figure = None
+        self.figure = plt.figure()
 
     def print_stats(self):
         """
@@ -65,7 +65,7 @@ class Statistics:
         attribute for later show.
         :return: None. But it creates plot figure.
         """
-        self.figure = plt.figure()
+        plt.clf()
         title = 'Fitness per generation\n'
         title += f'Attempt: {self.restarts + 1} | '
         title += f'Fitness calls: {self.fitness_calls} | '
@@ -81,12 +81,9 @@ class Statistics:
 
     def show_plot(self):
         """
-        This method allows to show the saved plot if exists or to create a new
-        one and show it instantly.
+        This method shows the saved plot.
         :return: None.
         """
-        if not self.figure:
-            self.save_plot()
         self.figure.show()
 
     def reset(self):
