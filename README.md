@@ -63,3 +63,5 @@ Once started, the CLI will show the follows:
   
 Then, running the program looks as follows:  
 ![image](https://user-images.githubusercontent.com/72878018/170320383-16132d06-f12a-430a-8111-53d8cbc0d60b.png)
+    
+**Note:** that the difference is between Best fit and Optimal fit is that Best fit is the fitness of the best solution in the current attempt, meanwhile the Optimal fit is the fitness of the best solution found in the whole experiment so far.
