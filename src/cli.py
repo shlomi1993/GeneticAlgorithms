@@ -4,6 +4,7 @@
 # Content: class and methods to support user interface.
 
 
+from sys import exit
 from os.path import exists
 from prettytable import PrettyTable
 from src.game import Futoshiki
@@ -137,8 +138,10 @@ class FutoshikiCli:
         try:
             with open(input_file, 'r') as file:
                 lines = file.readlines()
-        except OSError:
-            print('Could not read file.  Please provide a valid input file.')
+        except KeyboardInterrupt:
+            exit(-1)
+        except Exception:
+            print('Could not read file. Please provide a valid input file.')
             return False
 
         # Parse file.
@@ -176,7 +179,9 @@ class FutoshikiCli:
             self.game = Futoshiki(mat_size, given_digits, relations)
             print('Game input file successfully parsed.')
             return True
-        except IndexError or ValueError:
+        except KeyboardInterrupt:
+            exit(-1)
+        except Exception:
             print('Invalid input. Please provide a valid input file.')
             return False
 
@@ -194,7 +199,9 @@ class FutoshikiCli:
             self.generations = xi
             print(f'Generation parameter set to {xi}.')
             return True
-        except ValueError:
+        except KeyboardInterrupt:
+            exit(-1)
+        except Exception:
             print('Number of generations should be a positive integer.')
             return False
 
@@ -211,7 +218,9 @@ class FutoshikiCli:
             self.pop_size = xi
             print(f'Population size parameter set to {xi}')
             return True
-        except ValueError:
+        except KeyboardInterrupt:
+            exit(-1)
+        except Exception:
             print('Population size should be a positive integer')
             return False
 
@@ -228,7 +237,9 @@ class FutoshikiCli:
             self.elitism = xf
             print(f'Elitism parameter set to {xf}.')
             return True
-        except ValueError:
+        except KeyboardInterrupt:
+            exit(-1)
+        except Exception:
             print('Elitism should be a float between 0 and 1.')
             return False
 
@@ -245,7 +256,9 @@ class FutoshikiCli:
             self.crossover = xf
             print(f'Cross-over parameter to {xf}.')
             return True
-        except ValueError:
+        except KeyboardInterrupt:
+            exit(-1)
+        except Exception:
             print('Cross-over should be a float between 0 and 1.')
             return False
 
