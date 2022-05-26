@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d5558e04-ddc2-4c88-b613-3e58d04aba73" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/submit/GA.exe" beforeDir="false" afterPath="$PROJECT_DIR$/submit/GA.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/submit/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/submit/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/submit/src.zip" beforeDir="false" afterPath="$PROJECT_DIR$/submit/src.zip" afterDir="false" />
-    </list>
+    <list default="true" id="d5558e04-ddc2-4c88-b613-3e58d04aba73" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -229,6 +225,7 @@
       <workItem from="1653417143181" duration="33467000" />
       <workItem from="1653544978981" duration="3085000" />
       <workItem from="1653557078481" duration="4028000" />
+      <workItem from="1653566984016" duration="23000" />
     </task>
     <servers />
   </component>
